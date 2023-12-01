@@ -11,6 +11,8 @@ function App() {
     const [newUser, setNewUser] = useState({pk: "", username: "", password: ""});
     const [selectedUser, setSelectedUser] = useState({pk: "", username: "", password: ""});
 
+    const [loggedUser, logInUser] = useState({pk: "", username: "", password: ""});
+
     const onUserChange = e => {
         const {name, value} = e.target;
         setNewUser((prevUser) => ({
@@ -18,6 +20,7 @@ function App() {
             [name]: value,
         }));
     };
+    
 
     const onNoteChange = e => {
         const {name, value} = e.target;
@@ -51,6 +54,14 @@ function App() {
         }
     };
 
+    const logUser = () => {
+        if (logInUser.username.trim() !== '' && loggedUser.password.trim() !== '') {
+            axios.post(API_URL + "logg-in-user", loggedUser);
+            setUsers([...users, loggedUser]);
+            logInUser({username: "", password: ""});
+        }
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -80,6 +91,7 @@ function App() {
         <div>
             <h1>Notes App</h1>
             <div>
+                <h3>Sign Up</h3>
                 <input
                     type="text"
                     placeholder="username"
@@ -97,6 +109,7 @@ function App() {
                 <button onClick={addUser}>Add</button>
             </div>
             <div>
+                <h3>Add Note</h3>
                 <input
                     type="text"
                     placeholder="Add a new note"
@@ -113,6 +126,24 @@ function App() {
                     ))}
                 </select>
                 <button onClick={addNote}>Add</button>
+            </div>
+            <div>
+                <h3>Log In</h3>
+                <input
+                    type="text"
+                    placeholder="username"
+                    name="username"
+                    value={loggedUser.username}
+                    onChange={(e) => onUserChange(e)}
+                />
+                <input
+                    type="password"
+                    placeholder="password"
+                    name="password"
+                    value={loggedUser.password}
+                    onChange={(e) => onUserChange(e)}
+                />
+                <button onClick={logUser}>Add</button>
             </div>
             <h3>Notes</h3>
             <ul>
