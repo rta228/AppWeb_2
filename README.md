@@ -3,6 +3,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Main variables
+
+### insertedUserPasswd
+Variable which contains inputted user password. It is read in frontend and then transported and used on backend. 
+
+### insertedUserLogin
+Variable which contains inputted user login. It is read in frontend and then transported and used on backend. 
+
+
 ## Available Scripts
 
 In the project directory, you can run:
