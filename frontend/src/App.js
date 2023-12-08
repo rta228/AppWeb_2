@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {API_URL} from "./constants";
+import { ReactSession } from 'react-client-session';
+
+  
 
 function App() {
-
+    ReactSession.setStoreType("localStorage");
     const [notes, setNotes] = useState([]);
     const [newNote, setNewNote] = useState({note_text: "", username: ""});
 
@@ -45,6 +48,7 @@ function App() {
     }
 
     const logInUser = () => {
+        ReactSession.set("session", "Bob");
         axios.post(API_URL + "login", {"username": person.login, "password": person.password})
         .then(function(response) {
             alert("Sukces");
