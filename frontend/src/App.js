@@ -118,7 +118,7 @@ function App() {
                 <button onClick={logInUser}>Log in</button>
             </div>
             <div>
-                <h3>Sign In</h3>
+                <h3>Sign Up</h3>
                 <input
                     type="text"
                     placeholder="username"

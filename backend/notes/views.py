@@ -12,8 +12,14 @@ from .session import Session
 session_store = Session()
 
 class NoteView(generics.ListAPIView):
-    queryset = Note.objects.all()
-    serializer_class = NoteSerializer
+    def post(self, request):
+        username = request.data["username"]
+        try:
+            user = Note.objects.get(owner=username)
+            queryset = Note.objects.all()
+            serializer_class = NoteSerializer
+        except:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 class UserView(generics.ListAPIView):
     queryset = User.objects.all()
