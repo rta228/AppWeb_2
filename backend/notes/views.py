@@ -25,6 +25,7 @@ class LogInView(APIView):
         password = request.data["password"]
         try:
             user = User.objects.get(username=login, password=password)
+            session_store.add_user(user.username)
             return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_401_UNAUTHORIZED)

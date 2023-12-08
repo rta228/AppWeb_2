@@ -11,6 +11,9 @@ class Session:
         if username in self.session:
             return True
         return False
+    
+    def get_user(self, username):
+        return username
         
 
         
