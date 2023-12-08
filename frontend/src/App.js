@@ -9,7 +9,17 @@ function App() {
 
     const [users, setUsers] = useState([]);
     const [newUser, setNewUser] = useState({pk: "", username: "", password: ""});
+
+    const [person, setPerson] = useState({login: "", password: ""});
     const [selectedUser, setSelectedUser] = useState({pk: "", username: "", password: ""});
+
+    const onPersonChange = e => {
+        const {name, value} = e.target;
+        setPerson((prevPerson) => ({
+            ...prevPerson,
+            [name]: value,
+        }));
+    };
 
     const onUserChange = e => {
         const {name, value} = e.target;
@@ -33,6 +43,16 @@ function App() {
         setSelectedUser(user);
         onNoteChange({target: {name: "username", value: user.username}});
     }
+
+    const logInUser = () => {
+        axios.post(API_URL + "login", {"username": person.login, "password": person.password})
+        .then(function(response) {
+            alert("Sukces");
+        })
+        .catch(function(error) {
+            alert("Blad");
+        });
+    };
 
     const addNote = () => {
         if (newNote.note_text.trim() !== '' && newNote.username.trim() !== '') {
@@ -80,6 +100,25 @@ function App() {
         <div>
             <h1>Notes App</h1>
             <div>
+                <h3>Log In</h3>
+                <input
+                    type="text"
+                    placeholder="login"
+                    name="login"
+                    value={person.login}
+                    onChange={(e) => onPersonChange(e)}
+                />
+                <input
+                    type="password"
+                    placeholder="password"
+                    name="password"
+                    value={person.password}
+                    onChange={(e) => onPersonChange(e)}
+                />
+                <button onClick={logInUser}>Log in</button>
+            </div>
+            <div>
+                <h3>Sign In</h3>
                 <input
                     type="text"
                     placeholder="username"
@@ -97,6 +136,7 @@ function App() {
                 <button onClick={addUser}>Add</button>
             </div>
             <div>
+                <h3>Add new Note</h3>
                 <input
                     type="text"
                     placeholder="Add a new note"

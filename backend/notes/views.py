@@ -7,7 +7,9 @@ from rest_framework.views import APIView
 
 from .serializers import NoteSerializer, UserSerializer
 from .models import Note, User
+from .session import Session
 
+session_store = Session()
 
 class NoteView(generics.ListAPIView):
     queryset = Note.objects.all()
@@ -16,6 +18,16 @@ class NoteView(generics.ListAPIView):
 class UserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    
+class LogInView(APIView):
+    def post(self, request):
+        login = request.data["username"]
+        password = request.data["password"]
+        try:
+            user = User.objects.get(username=login, password=password)
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 class CreateNoteView(APIView):
     def post(self, request):
